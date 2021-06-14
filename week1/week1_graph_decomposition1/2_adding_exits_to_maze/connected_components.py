@@ -2,10 +2,21 @@
 
 import sys
 
+def dfs(node, adj, visited):
+    if len(adj[node]) == 0 or node in visited:
+        return
+    visited.append(node)
+    for next_node in adj[node]:
+        dfs(next_node, adj, visited)
 
 def number_of_components(adj):
     result = 0
     #write your code here
+    visited = []
+    for node in range(len(adj)):
+        if node not in visited:
+            dfs(node, adj, visited)
+            result += 1
     return result
 
 if __name__ == '__main__':
