@@ -4,7 +4,19 @@ import sys
 
 def reach(adj, x, y):
     #write your code here
-    return 0
+    queue,visited = [], []
+    queue.extend(adj[x])
+    visited.append(x)
+    has_path = 0
+    while len(queue) > 0:
+        node = queue.pop(0)
+        if node == y:
+            has_path = 1
+            break
+        visited.append(node)
+        next_nodes = [n for n in adj[node] if n not in visited]
+        queue.extend(next_nodes)
+    return has_path
 
 if __name__ == '__main__':
     input = sys.stdin.read()
