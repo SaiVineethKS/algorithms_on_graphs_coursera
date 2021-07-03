@@ -56,11 +56,16 @@ def number_of_strongly_connected_components(adj):
     post_order = []
     visited = []
     path = []
+    # Get postorder of reversed graph
     for v in range(len(r_adj)):
         dfs(r_adj, used, post_order, v)
     
+    # Reverse the post order
     post_order.reverse()
 
+    # For every vertex in the post order
+    # Explore all possible vertices reachable from the vertex
+    # Create a path out of it and record that as an SCC
     for v in post_order:
         if v not in visited:
             explore(v, adj, path, visited)
