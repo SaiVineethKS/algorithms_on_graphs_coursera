@@ -2,29 +2,28 @@
 
 import sys
 import queue
-import math
 
-def distance(adj, start, end):
-    #write your code here
-    queue,visited = [], []
-    queue.append(start)
-    visited.append(start)
-    distance = [math.inf] * len(adj)
-    distance[start] = 0
-    while len(queue) > 0:
-        node = queue.pop(0)
-        if node == end:
-            return distance[node]
-        visited.append(node)
-        for next_node in [n for n in adj[node] if n not in visited]:
-            distance[next_node] = distance[node] + 1
-            queue.append(next_node)
+def distance(adj, s, t):
+    """
+    Do not initialize infinity for distance node, the concept fails, instead carry the distance like a tuple
+    Note: There is path from 's' to 't' if 's' == 't', only if the graph has a self-referential link
+    Else the distance is -1 i.e infinity
+    """
+    q, visited = [], set([])
+    q.append((1,s))
+    while len(q) > 0:
+        distance, node = q.pop(0)
+        visited.add(node)
+        if t in adj[node]:
+            return distance
+        for e in adj[node]:
+            if e not in visited:
+                q.append((distance+1, e))
     return -1
 
 if __name__ == '__main__':
-    # input = sys.stdin.read()
-    # data = list(map(int, input.split()))
-    data = [4,4,1,2,4,1,2,3,3,1,2,4]
+    input = sys.stdin.read()
+    data = list(map(int, input.split()))
     n, m = data[0:2]
     data = data[2:]
     edges = list(zip(data[0:(2 * m):2], data[1:(2 * m):2]))
